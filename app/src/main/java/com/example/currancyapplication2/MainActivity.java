@@ -59,17 +59,20 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                openScreenConversion();
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedCurrency = currencyItems.get(position).getName();
+            String selectedCurrencyValue = String.valueOf(currencyItems.get(position).getValue());
+            String selectedCurrencyCode = currencyItems.get(position).getCharCode();
+            openScreenConversion(selectedCurrency, selectedCurrencyValue, selectedCurrencyCode);
         });
     }
 
-    public void openScreenConversion(){
-        Intent intent = new Intent(this,ScreenConversionActivity.class);
+    public void openScreenConversion(String name, String value, String code) {
+        Intent intent = new Intent(this, ScreenConversionActivity.class);
 
+        intent.putExtra("select", name);
+        intent.putExtra("value", value);
+        intent.putExtra("code", code);
         startActivity(intent);
     }
 
@@ -89,12 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateClick(View v) {
-        new Thread(() -> runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                init();
-            }
-        })).start();
+        new Thread(() -> runOnUiThread(() -> init())).start();
     }
 
     private boolean checkInternetConnection() {
@@ -106,21 +104,18 @@ public class MainActivity extends AppCompatActivity {
         if (networkInfo == null) {
             Toast.makeText(this, "No default network is currently active",
                     Toast.LENGTH_LONG).show();
-
             return false;
         }
 
         if (!networkInfo.isConnected()) {
             Toast.makeText(this, "Network is not connected",
                     Toast.LENGTH_LONG).show();
-
             return false;
         }
 
         if (!networkInfo.isAvailable()) {
             Toast.makeText(this, "Network not available",
                     Toast.LENGTH_LONG).show();
-
             return false;
         }
 

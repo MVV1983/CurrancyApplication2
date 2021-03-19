@@ -33,10 +33,9 @@ public class CustomAdapter extends ArrayAdapter<CurrancyItem> {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.list_item_layout, null, true);
             holder = new ViewHolder();
-            holder.codeName = (TextView) convertView.findViewById(R.id.codeName);
-            holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.value = (TextView) convertView.findViewById(R.id.Value);
-            holder.previousValue = (TextView) convertView.findViewById(R.id.previousValue);
+            holder.codeName =  convertView.findViewById(R.id.codeName);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.value =  convertView.findViewById(R.id.Value);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -46,12 +45,11 @@ public class CustomAdapter extends ArrayAdapter<CurrancyItem> {
         holder.codeName.setText(currancyItem.getCharCode());
         holder.value.setText(Double.toString(currancyItem.getValue()));
         holder.name.setText(currancyItem.getName());
-        holder.previousValue.setText(Double.toString(currancyItem.getPrevious()));
 
-        if(currancyItem.getValue()>currancyItem.getPrevious()){
+
+        if (currancyItem.getValue() > currancyItem.getPrevious()) {
             holder.value.setTextColor(Color.GREEN);
-        }
-        else{
+        } else {
             holder.value.setTextColor(Color.RED);
         }
 
@@ -63,7 +61,6 @@ public class CustomAdapter extends ArrayAdapter<CurrancyItem> {
         TextView codeName;
         TextView name;
         TextView value;
-        TextView previousValue;
     }
 
     public void update(List<CurrancyItem> items) {
