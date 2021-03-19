@@ -49,8 +49,12 @@ public class CustomAdapter extends ArrayAdapter<CurrancyItem> {
 
         if (currancyItem.getValue() > currancyItem.getPrevious()) {
             holder.value.setTextColor(Color.GREEN);
-        } else {
+        }
+        else if(currancyItem.getValue() < currancyItem.getPrevious()){
             holder.value.setTextColor(Color.RED);
+        }
+        else{
+            holder.value.setTextColor(Color.WHITE);
         }
 
         return convertView;
