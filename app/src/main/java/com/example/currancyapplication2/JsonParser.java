@@ -1,0 +1,36 @@
+package com.example.currancyapplication2;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class JsonParser {
+
+    public  List<CurrancyItem> getAllCurrencies(String uri) {
+        Map<String, CurrancyItem> currencyItemMap = new HashMap<>();
+
+        try {
+            URL url = new URL(uri);
+            InputStreamReader reader = new InputStreamReader(url.openStream());
+
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            JsonObject valute = jsonObject.getAsJsonObject("Valute");
+            currencyItemMap = gson.fromJson(valute, new TypeToken<Map<String, CurrancyItem>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.getCause();
+        }
+
+        return new ArrayList<>(currencyItemMap.values());
+    }
+}
